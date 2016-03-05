@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BitirmeDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AdminSurname" Type="nvarchar" MaxLength="50" />
+          <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Kategoriid" />
+          </Key>
+          <Property Name="Kategoriid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SubKategoriid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KullaniciBilgileri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Misafir" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MisafirAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="MisafirSoyadi" Type="nvarchar" MaxLength="50" />
+          <Property Name="MisafirAdres" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MisafirPostalCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sepet">
+          <Key>
+            <PropertyRef Name="Sepetid" />
+          </Key>
+          <Property Name="Sepetid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SepetMusteriid" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SepetUrunid" Type="int" Nullable="false" />
+          <Property Name="SepetMiktar" Type="int" Nullable="false" />
+          <Property Name="SepeteEklenmeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="SepetteVarmi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="Urunid" />
+          </Key>
+          <Property Name="Urunid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunKategoriid" Type="int" Nullable="false" />
+          <Property Name="UrunAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="UrunFiyat" Type="int" />
+          <Property Name="UrunAciklama" Type="nvarchar" MaxLength="300" />
+          <Property Name="UrunResim" Type="nvarchar" MaxLength="400" />
+        </EntityType>
+        <Association Name="FK_Sepet_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Sepet" Type="Self.Sepet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="Urunid" />
+            </Principal>
+            <Dependent Role="Sepet">
+              <PropertyRef Name="SepetUrunid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urun_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Urun" Type="Self.Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Kategoriid" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="UrunKategoriid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BitirmeDBModelStoreContainer">
+          <EntitySet Name="AdminTable" EntityType="Self.AdminTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KullaniciBilgileri" EntityType="Self.KullaniciBilgileri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sepet" EntityType="Self.Sepet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Sepet_Urun" Association="Self.FK_Sepet_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="Sepet" EntitySet="Sepet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urun_Kategori" Association="Self.FK_Urun_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Urun" EntitySet="Urun" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BitirmeDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Kategoriid" />
+          </Key>
+          <Property Name="Kategoriid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Uruns" Relationship="Self.FK_Urun_Kategori" FromRole="Kategori" ToRole="Urun" />
+          <Property Name="SubKategoriid" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KullaniciBilgileri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Misafir" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MisafirAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MisafirSoyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MisafirAdres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MisafirPostalCode" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sepet">
+          <Key>
+            <PropertyRef Name="Sepetid" />
+          </Key>
+          <Property Name="Sepetid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SepetMusteriid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SepetUrunid" Type="Int32" Nullable="false" />
+          <Property Name="SepetMiktar" Type="Int32" Nullable="false" />
+          <Property Name="SepeteEklenmeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SepetteVarmi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Urun" Relationship="Self.FK_Sepet_Urun" FromRole="Sepet" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="Urunid" />
+          </Key>
+          <Property Name="Urunid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunKategoriid" Type="Int32" Nullable="false" />
+          <Property Name="UrunAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UrunFiyat" Type="Int32" />
+          <Property Name="UrunAciklama" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UrunResim" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kategori" Relationship="Self.FK_Urun_Kategori" FromRole="Urun" ToRole="Kategori" />
+          <NavigationProperty Name="Sepets" Relationship="Self.FK_Sepet_Urun" FromRole="Urun" ToRole="Sepet" />
+        </EntityType>
+        <Association Name="FK_Urun_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Urun" Type="Self.Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Kategoriid" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="UrunKategoriid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sepet_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Sepet" Type="Self.Sepet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="Urunid" />
+            </Principal>
+            <Dependent Role="Sepet">
+              <PropertyRef Name="SepetUrunid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BitirmeDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategoris" EntityType="Self.Kategori" />
+          <EntitySet Name="KullaniciBilgileris" EntityType="Self.KullaniciBilgileri" />
+          <EntitySet Name="Sepets" EntityType="Self.Sepet" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Uruns" EntityType="Self.Urun" />
+          <AssociationSet Name="FK_Urun_Kategori" Association="Self.FK_Urun_Kategori">
+            <End Role="Kategori" EntitySet="Kategoris" />
+            <End Role="Urun" EntitySet="Uruns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sepet_Urun" Association="Self.FK_Sepet_Urun">
+            <End Role="Urun" EntitySet="Uruns" />
+            <End Role="Sepet" EntitySet="Sepets" />
+          </AssociationSet>
+          <EntitySet Name="AdminTables" EntityType="BitirmeDBModel.AdminTable" />
+        </EntityContainer>
+        <EntityType Name="AdminTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BitirmeDBModelStoreContainer" CdmEntityContainer="BitirmeDBEntities">
+          <EntitySetMapping Name="Kategoris">
+            <EntityTypeMapping TypeName="BitirmeDBModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="SubKategoriid" ColumnName="SubKategoriid" />
+                <ScalarProperty Name="Kategoriid" ColumnName="Kategoriid" />
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KullaniciBilgileris">
+            <EntityTypeMapping TypeName="BitirmeDBModel.KullaniciBilgileri">
+              <MappingFragment StoreEntitySet="KullaniciBilgileri">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Misafir" ColumnName="Misafir" />
+                <ScalarProperty Name="MisafirAdi" ColumnName="MisafirAdi" />
+                <ScalarProperty Name="MisafirSoyadi" ColumnName="MisafirSoyadi" />
+                <ScalarProperty Name="MisafirAdres" ColumnName="MisafirAdres" />
+                <ScalarProperty Name="MisafirPostalCode" ColumnName="MisafirPostalCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sepets">
+            <EntityTypeMapping TypeName="BitirmeDBModel.Sepet">
+              <MappingFragment StoreEntitySet="Sepet">
+                <ScalarProperty Name="Sepetid" ColumnName="Sepetid" />
+                <ScalarProperty Name="SepetMusteriid" ColumnName="SepetMusteriid" />
+                <ScalarProperty Name="SepetUrunid" ColumnName="SepetUrunid" />
+                <ScalarProperty Name="SepetMiktar" ColumnName="SepetMiktar" />
+                <ScalarProperty Name="SepeteEklenmeTarihi" ColumnName="SepeteEklenmeTarihi" />
+                <ScalarProperty Name="SepetteVarmi" ColumnName="SepetteVarmi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BitirmeDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uruns">
+            <EntityTypeMapping TypeName="BitirmeDBModel.Urun">
+              <MappingFragment StoreEntitySet="Urun">
+                <ScalarProperty Name="Urunid" ColumnName="Urunid" />
+                <ScalarProperty Name="UrunKategoriid" ColumnName="UrunKategoriid" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="UrunFiyat" ColumnName="UrunFiyat" />
+                <ScalarProperty Name="UrunAciklama" ColumnName="UrunAciklama" />
+                <ScalarProperty Name="UrunResim" ColumnName="UrunResim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminTables">
+            <EntityTypeMapping TypeName="BitirmeDBModel.AdminTable">
+              <MappingFragment StoreEntitySet="AdminTable">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+                <ScalarProperty Name="AdminSurname" ColumnName="AdminSurname" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
